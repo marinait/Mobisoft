@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-//import config from 'config';
+import {config} from '../config';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -26,7 +26,7 @@ function twofastep1(phone){
     let requestOptions = getAuthorizedPOSTRequestOptions();
     requestOptions.body = JSON.stringify({ phone });
 
-    return fetch(`http://localhost:8003/api/twofastep1`, requestOptions)
+    return fetch(`${config.serverUrl}/api/twofastep1`, requestOptions)
 
     .then(response => {
         if (response.ok) {
@@ -39,7 +39,7 @@ function testToken(){
     if (currentUserSubject.value)
     {
         let requestOptions = getAuthorizedPOSTRequestOptions();
-        return fetch(`http://localhost:8003/api/testToken`, requestOptions)
+        return fetch(`${config.serverUrl}/api/testToken`, requestOptions)
 
         .then(response => {
             if (!response.ok) {
@@ -55,7 +55,7 @@ function twofastep2(id, twofaid, code){
     let requestOptions = getAuthorizedPOSTRequestOptions();
     requestOptions.body = JSON.stringify({ id, twofaid, code });
 
-    return fetch(`http://localhost:8003/api/twofastep2`, requestOptions)
+    return fetch(`${config.serverUrl}/api/twofastep2`, requestOptions)
 
     .then(response => {
         if (response.ok) {
@@ -84,7 +84,7 @@ function login(username, password) {
         body: JSON.stringify({ username, password }),
     };
 
-    return fetch(`http://localhost:8003/api/login`, requestOptions)
+    return fetch(`${config.serverUrl}/api/login`, requestOptions)
 
         .then(handleResponse)
         .then(user => {
@@ -108,7 +108,6 @@ function handleResponse(response) {
             if ([401, 403].indexOf(response.status) !== -1) {
                 // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
                 authenticationService.logout();
-                //location.reload(true);
             }
 
             const error = (data && data.message) || response.statusText;
