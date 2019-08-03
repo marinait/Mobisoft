@@ -8,11 +8,6 @@ export default class Products extends Component {
   constructor(props) {
     super(props);
 
-    this.products = [
-      { Id: 1, Name: "product1" },
-      { Id: 2, Name: "product2" },
-      { Id: 3, Name: "product3" }
-    ];
     this.state = {
       products: [],
       productsDictionary: {},
